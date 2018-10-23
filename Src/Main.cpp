@@ -1,25 +1,8 @@
 /**
 * @file Main.cpp
 */
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "GLFWEW.h"
 #include <iostream>
-
-/**
-* GLFWからのエラー報告を処理する
-*
-*
-* @param error	エラー番号
-* @param desc	エラーの内容
-*
-*/
-void  ErrorCallback(int error, const char* desc)
-{
-	//GLFWから渡されたエラーメッセージを標準エラー出力に表示するだけ
-	std::cerr << "ERROR: " << desc << std::endl;
-}
-
-
 
 
 
@@ -28,18 +11,28 @@ void  ErrorCallback(int error, const char* desc)
 */
 int main() 
 {
-	//ErrorCallback関数を呼び出す
-	glfwSetErrorCallback(ErrorCallback);
+	//GLFW GLEWの初期化とウィンドウの作成
+	GLFWEW::Window& window = GLFWEW::Window::Instance();
+	if (!window.Init(800, 600, "OpenGL3D")) {
+		return 1;
+	}
 
 
+	//メインループ
+	while (!window.ShouldClose()) {
 
+		//=========================課題１ 色を変える場合はここの引数を変える============================
+		//==============================================================================================
+		//バックバッファを憑拠するときの色　RGBA
+		glClearColor(.01f, 0.3f, 0.5f, 1.0f);
+		
+		//バックバッファを消去する関数 引数は消去するバッファの種類
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// GLFW
+		//バッファの切替
+		window.SwapBuffers();
 
-
-
-
-
+	}
 
 	return 0;
 }
