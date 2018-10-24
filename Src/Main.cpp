@@ -26,10 +26,24 @@ struct Vertex
 
 /// 頂点データ
 const Vertex vertices[] = {
-	{ { -0.5f, -0.43f, 0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
-	{ { 0.5f, -0.43f, 0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
-	{ { 0.0f,  0.43f, 0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+	{ { -0.5f, -0.3f, 0.5f },{ 0.0f, 1.0f, 1.0f, 1.0f } },
+{ { 0.3f, -0.3f, 0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+{ { 0.3f,  0.5f, 0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
+{ { -0.5f,  0.5f, 0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+
+
+{ { -0.5f, -0.43f, 0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
+{ { 0.5f, -0.43f, 0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
+{ { 0.0f,  0.43f, 0.5f },{ 1.0f, 0.0f, 0.0f, 1.0f } },
 };
+
+// インデックスデータ
+const GLushort indices[] = {
+	0,1,2,2,3,0,
+};
+
+
+
 
 
 /// 頂点シェーダー.
@@ -79,7 +93,7 @@ GLuint CreateVBO(GLsizeiptr size, const GLvoid* data)
 	//メモリ領域を管理するオブジェクトを作成する関数
 	//引数はバッファオブジェクトの個数と変数へのポインタ
 	glGenBuffers(1, &vbo);
-	
+
 	//バッファオブジェクトを特定の用途に割り当てる
 	//GL_ARRAY_BUFFER　は　頂点データを示す定数
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -95,7 +109,7 @@ GLuint CreateVBO(GLsizeiptr size, const GLvoid* data)
 	*					  バッファは一度だけ転送され、何度も利用されます。
 	*/
 	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-	
+
 	//0で割り当てを解除
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -104,18 +118,52 @@ GLuint CreateVBO(GLsizeiptr size, const GLvoid* data)
 }
 
 
+/**
+* Index Buffer Objectを作成する
+*
+* @param size インデックスデータのサイズ
+* @param data インデックスデータへのポインタ
+*
+* GL_ELEMENT_ARRAY_BUFFERはインデックスデータを操作するためのマクロ
+*
+* @return 作成したIBO
+*/
+GLuint CreateIBO(GLsizeiptr size, const GLvoid* data)
+{
+	GLuint ibo = 0;
+
+	//メモリ領域を管理するオブジェクトを作成する
+	glGenBuffers(1, &ibo);
+
+	//バッファオブジェクトを特定の用途に割り当てる
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+
+	//バッファオブジェぅとにデータを転送する関数
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+
+	//0で割り当てを解除
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	//iboを返す
+	return ibo;
+}
+
+
+
+
 
 /**
 * Vertex Array Objectを作成する.
 *
 * @param vbo VAOに関連付けられるVBO.
+* @param ibo VAOに関連付けられるIBO.
 *
 * @return 作成したVAO.
 */
-GLuint CreateVAO(GLuint vbo)
+GLuint CreateVAO(GLuint vbo, GLuint ibo)
 {
 	GLuint vao = 0;
-	
+
 	//vaoを作成する
 	glGenVertexArrays(1, &vao);
 
@@ -125,6 +173,9 @@ GLuint CreateVAO(GLuint vbo)
 	//頂点アトリビュートを設定するには事前に対応するVBOを割り当てる必要がある
 	//vboをOpenGLに割り当てる
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	//iboをOpenGLに割り当てる
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
 	//指定したバインディングポイントを有効にする
 	//glDisableVertexAttribArrayで無効化にするまでは有効
@@ -150,6 +201,9 @@ GLuint CreateVAO(GLuint vbo)
 	//VBOを削除する　VAOに割り当てられている場合削除マークを付けて削除待機する
 	glDeleteBuffers(1, &vbo);
 
+	//IBOを削除する　IBOに割り当てられている場合削除マークを付けて削除待機する
+	glDeleteBuffers(1, &ibo);
+
 	return vao;
 
 }
@@ -164,7 +218,7 @@ GLuint CreateVAO(GLuint vbo)
 /**
 * エントリーポート
 */
-int main() 
+int main()
 {
 	//GLFW GLEWの初期化とウィンドウの作成
 	GLFWEW::Window& window = GLFWEW::Window::Instance();
@@ -175,11 +229,12 @@ int main()
 	//Shader.h
 	//実装した関数を呼び出し、作成したオブジェクトを変数に格納
 	const GLuint vbo = CreateVBO(sizeof(vertices), vertices);
-	const GLuint vao = CreateVAO(vbo);
+	const GLuint ibo = CreateIBO(sizeof(indices), indices);
+	const GLuint vao = CreateVAO(vbo, ibo);
 	const GLuint shaderProgram = Shader::Build(vsCode, fsCode);
 
 	//失敗したら1を返してプログラムを終了
-	if (!vbo || !vao || !shaderProgram) {
+	if (!vbo || !ibo || !vao || !shaderProgram) {
 		return 1;
 	}
 
@@ -196,7 +251,7 @@ int main()
 
 		//バックバッファを憑拠するときの色　RGBA
 		glClearColor(.01f, 0.3f, 0.5f, 1.0f);
-		
+
 		//バックバッファを消去する関数 引数は消去するバッファの種類
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -207,7 +262,16 @@ int main()
 		glBindVertexArray(vao);
 
 		//指定されたオブジェクトやデータを使って図形を描写
-		glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(vertices[0]));
+		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]),
+			GL_UNSIGNED_SHORT, (const GLvoid*)0);
+
+
+		//glDrawElements 引数
+		/**
+		* 1 プリミティブの種類	|| 2 描画するインデックス数
+		* 3 インデックスの型	|| 4 インデックスデータの描画オフセットを、インデックスデータの先頭データからのバイト数で指定
+		*/
+
 
 		//sizeof(配列名)/sizeof(配列名[0])の説明
 		/*
@@ -234,7 +298,6 @@ int main()
 	* プログラムを作成する上で一般的なルールです。
 	* 依存関係の有無にかかわらず、このルールに従うことをお薦めします。
 	*/
-
 
 	return 0;
 }
