@@ -153,10 +153,12 @@
   <ItemGroup>
     <ClCompile Include="Src\GLFWEW.cpp" />
     <ClCompile Include="Src\Main.cpp" />
+    <ClCompile Include="Src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\GameData.h" />
     <ClInclude Include="Src\GLFWEW.h" />
+    <ClInclude Include="Src\Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
