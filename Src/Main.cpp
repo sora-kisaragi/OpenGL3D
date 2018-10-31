@@ -3,8 +3,17 @@
 */
 #include "GLFWEW.h"
 #include "Shader.h"
+#include "Texture.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+
+
+/// 2dベクトル型
+struct Vector2
+{
+	float x, y;
+};
+
 
 /// 3Dベクトル型
 struct Vector3
@@ -23,39 +32,42 @@ struct Vertex
 {
 	Vector3 position;///< 座標
 	Color color;///< 色
+	Vector2 texCoord;///< テクスチャ座標　Texture Coordinatesの略
 };
+
+
 
 /// 頂点データ
 const Vertex vertices[] = {
 	//木
-	{ { 0.00f, 5.0f, 0.00f},{ 0.5f, 0.8f, 0.3f, 1.0f } },
-	{ { 0.00f, 1.5f,-1.10f},{ 0.1f, 0.3f, 0.0f, 1.0f } },
-	{ {-0.75f, 1.5f, 0.40f},{ 0.1f, 0.3f, 0.0f, 1.0f } },
-	{ { 0.75f, 1.5f, 0.40f},{ 0.1f, 0.3f, 0.0f, 1.0f } },
-	{ { 0.00f, 4.0f, 0.00f},{ 0.2f, 0.1f, 0.0f, 1.0f } },
-	{ { 0.00f, 0.0f,-0.37f},{ 0.5f, 0.3f, 0.2f, 1.0f } },
-	{ {-0.25f, 0.0f, 0.13f},{ 0.5f, 0.3f, 0.2f, 1.0f } },
-	{ { 0.25f, 0.0f, 0.13f},{ 0.5f, 0.3f, 0.2f, 1.0f } },
+	{ { 0.00f, 5.0f, 0.00f},{ 0.5f, 0.8f, 0.3f, 1.0f }, {0.0f,0.4f}},
+	{ { 0.00f, 1.5f,-1.10f},{ 0.1f, 0.3f, 0.0f, 1.0f }, {0.0f,1.0f}},
+	{ {-0.75f, 1.5f, 0.40f},{ 0.1f, 0.3f, 0.0f, 1.0f }, {-0.5f,0.0f}},
+	{ { 0.75f, 1.5f, 0.40f},{ 0.1f, 0.3f, 0.0f, 1.0f }, {0.0f,0.0f}},
+	{ { 0.00f, 4.0f, 0.00f},{ 0.2f, 0.1f, 0.0f, 1.0f }, {0.5f,0.1f}},
+	{ { 0.00f, 0.0f,-0.37f},{ 0.5f, 0.3f, 0.2f, 1.0f }, {-0.5f,0.1f}},
+	{ {-0.25f, 0.0f, 0.13f},{ 0.5f, 0.3f, 0.2f, 1.0f }, {-0.25f,0.0f}},
+	{ { 0.25f, 0.0f, 0.13f},{ 0.5f, 0.3f, 0.2f, 1.0f }, {0.25f,0.0f}},
 
 	//家
-	{ { 2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f } },
-	{ { 3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f } },
-	{ { 0.0f, 6.0f, 3.0f},{ 0.5f, 0.4f, 0.2f, 1.0f } },
-	{ {-3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f } },
-	{ {-2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f } },
+	{ { 2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ -2.0f,-2.0f } },
+	{ { 3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ -2.0f, 0.8f } },
+	{ { 0.0f, 6.0f, 3.0f},{ 0.5f, 0.4f, 0.2f, 1.0f },{ 0.0f, 2.0f } },
+	{ {-3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 2.0f, 0.8f } },
+	{ {-2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 2.0f,-2.0f } },
 	
-	{ {-2.8f, 0.0f,-3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f } },
-	{ {-3.0f, 4.0f,-3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f } },
-	{ { 0.0f, 6.0f,-3.0f},{ 0.5f, 0.4f, 0.2f, 1.0f } },
-	{ { 3.0f, 4.0f,-3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f } },
-	{ { 2.8f, 0.0f,-3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f } },
+	{ {-2.8f, 0.0f,-3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ -2.0f,-2.0f } },
+	{ {-3.0f, 4.0f,-3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ -2.0f, 0.8f } },
+	{ { 0.0f, 6.0f,-3.0f},{ 0.5f, 0.4f, 0.2f, 1.0f },{ 0.0f, 2.0f } },
+	{ { 3.0f, 4.0f,-3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 2.0f, 0.8f } },
+	{ { 2.8f, 0.0f,-3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 2.0f,-2.0f } },
 	
-	{ { 3.0f, 4.0f, 3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f } },
-	{ { 0.0f, 6.0f, 3.0f},{ 0.3f, 0.2f, 0.2f, 1.0f } },
-	{ {-3.0f, 4.0f, 3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f } },
-	{ {-3.0f, 4.0f,-3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f } },
-	{ { 0.0f, 6.0f,-3.0f},{ 0.3f, 0.2f, 0.2f, 1.0f } },
-	{ { 3.0f, 4.0f,-3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f } },
+	{ { 3.0f, 4.0f, 3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f },{ -2.0f,-2.0f } },
+	{ { 0.0f, 6.0f, 3.0f},{ 0.3f, 0.2f, 0.2f, 1.0f },{ 0.0f,-2.0f } },
+	{ {-3.0f, 4.0f, 3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f },{ 2.0f,-2.0f } },
+	{ {-3.0f, 4.0f,-3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f },{ 2.0f, 2.0f } },
+	{ { 0.0f, 6.0f,-3.0f},{ 0.3f, 0.2f, 0.2f, 1.0f },{ 0.0f, 2.0f } },
+	{ { 3.0f, 4.0f,-3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f },{ -2.0f, 2.0f } },
 
 	//岩
 	//底面
@@ -172,10 +184,13 @@ static const char* vsCode =
 "#version 410 \n"
 "layout(location=0) in vec3 vPosition; \n"
 "layout(location=1) in vec4 vColor; \n"
-"layout(location=0) out vec4 outColor; \n"
+"layout(location=2) in vec2 vTexCoord; \n"
+"layout(location=0) out vec4 outColor;"
+"layout(location=1) out vec2 outTexCoord; \n"
 "uniform mat4x4 matMVP; \n"
 "void main() { \n"
 "  outColor = vColor; \n"
+"  outTexCoord = vTexCoord; \n"
 "  gl_Position = matMVP * vec4(vPosition, 1.0); \n"
 "}";
 
@@ -185,9 +200,11 @@ static const char* vsCode =
 static const char* fsCode =
 "#version 410 \n"
 "layout(location=0) in vec4 inColor; \n"
+"layout(location=1) in vec2 inTexCoord; \n"
+"uniform sampler2D texColor; \n"
 "out vec4 fragColor; \n"
 "void main() { \n"
-"  fragColor = inColor; \n"
+"  fragColor = inColor * texture(texColor, inTexCoord); \n"
 "}";
 
 
@@ -313,9 +330,22 @@ GLuint CreateVAO(GLuint vbo, GLuint ibo)
 	*/
 	glVertexAttribPointer(0, sizeof(Vertex::position) / sizeof(float),
 		GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)(offsetof(Vertex, position)));
+	
+	//指定したバインディングポイントを割り当てる
 	glEnableVertexAttribArray(1);
+
+	//頂点アトリビュートをバインディングポインタへ割り当てる
 	glVertexAttribPointer(1, sizeof(Vertex::color) / sizeof(float),
 		GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)(offsetof(Vertex, color)));
+
+	//指定したバインディングポイントを有効にする
+	glEnableVertexAttribArray(2);
+
+	//頂点アトリビュートをバインディングポインタへ割り当てる
+	glVertexAttribPointer(2, sizeof(Vertex::texCoord) / sizeof(float),
+		GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)(offsetof(Vertex, texCoord)));
+
+
 
 	//0で割り当てを解除
 	glBindVertexArray(0);
@@ -360,7 +390,6 @@ int main()
 		return 1;
 	}
 
-
 	//uniform変数の位置を取得する
 	const GLint matMVPLoc = glGetUniformLocation(shaderProgram, "matMVP");
 	//見つからなかった場合
@@ -370,6 +399,56 @@ int main()
 		//1を返す
 		return 1;
 	}
+
+	glUseProgram(shaderProgram);
+	const GLint texColorLoc = glGetUniformLocation(shaderProgram, "texColor");
+	if (texColorLoc >= 0) {
+		//1つのint型の値をuniform変数に設定する関数
+		glUniform1i(texColorLoc, 0);
+	}
+	glUseProgram(0);
+
+
+	//テクスチャを作成する
+	const int imageWidth = 8; //画像の幅
+	const int imageHeight = 8; //画像の高さ
+	const uint32_t B = 0xff'00'00'00; //黒
+	const uint32_t W = 0xff'ff'ff'ff; //白
+	const uint32_t imageData[imageWidth * imageHeight] = {
+		W, W, B, W, W, W, W, W,
+		W, W, B, W, W, W, W, W,
+		W, W, B, W, W, W, W, W,
+		B, B, B, B, B, B, B, B,
+		W, W, W, W, W, W, B, W,
+		W, W, W, W, W, W, B, W,
+		W, W, W, W, W, W, B, W,
+		B, B, B, B, B, B, B, B,
+	};
+	//テクスチャを作成 それぞれに引数を設定するだけ
+	GLuint texId = Texture::CreateImage2D(imageWidth, imageHeight, imageData);
+	//作成に失敗した場合は1を返して終了
+	if (!texId) {
+		return 1;
+	}
+
+	//テクスチャを作成する
+	const int imageWidth2 = 4; //画像の幅
+	const int imageHeight2 = 4; //画像の高さ
+	const uint32_t imageData2[imageWidth2 * imageHeight2] = {
+		W, W, B, W, 
+		W, B, W, W,
+		W, W, B, W,
+		W, B, W, W,
+	};
+	//テクスチャを作成 それぞれに引数を設定するだけ
+	GLuint texId2 = Texture::CreateImage2D(imageWidth2, imageHeight2, imageData2);
+	//作成に失敗した場合は1を返して終了
+	if (!texId2) {
+		return 1;
+	}
+
+
+
 
 
 
@@ -464,6 +543,17 @@ int main()
 		//指定されたVAOをOpenGLの現在の処理対処に設定する
 		glBindVertexArray(vao);
 
+		//指定したテクスチャImageユニットをテクスチャ関数の処理対象として設定
+		glActiveTexture(GL_TEXTURE0);
+
+		//指定したテクスチャが選択されたテクスチャイメージユニットに割り当てられる
+		glBindTexture(GL_TEXTURE_2D, texId);
+
+		//指定したテクスチャImageユニットをテクスチャ関数の処理対象として設定
+		glActiveTexture(GL_TEXTURE1);
+
+		//指定したテクスチャが選択されたテクスチャイメージユニットに割り当てられる
+		glBindTexture(GL_TEXTURE_2D, texId2);
 
 		const float treeCount = 10;//木の本数
 		const float radius = 8;		//木を植える円の半径
@@ -519,6 +609,11 @@ int main()
 		*	のようなマクロを定義してそれを使います
 		*/
 
+		//割り当てを解除（デフォルトを割り当てる）
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
 
 		//バッファの切替
@@ -526,6 +621,8 @@ int main()
 	}
 
 	//あとから作られたオブジェクトを先に削除
+	glDeleteTextures(1, &texId2);
+	glDeleteTextures(1, &texId);
 	glDeleteProgram(shaderProgram);
 	glDeleteVertexArrays(1, &vao);
 

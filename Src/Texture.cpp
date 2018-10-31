@@ -2,6 +2,9 @@
 * @file Texture.cpp
 */
 #include "Texture.h"
+#include <stdint.h>
+#include <vector>
+#include <fstream>
 #include <iostream>
 
 /// テクスチャ関連の関数やクラスを格納する名前空間
@@ -64,10 +67,10 @@ namespace Texture {
 
 		}
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 
 
@@ -75,6 +78,47 @@ namespace Texture {
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		return id;
+	}
+
+	/**
+	* ファイルから2Dテクスチャを読み込む
+	*
+	* @param path 2D テクスチャとして読み込むファイル名
+	*
+	* @retval	0 以外	作成したテクスチャオブジェクトのID
+	*			0		テクスチャの作成に失敗
+	*/
+	GLuint LoadImage2D(const char* path)
+	{
+		//TAG ヘッダを読み込む
+		std::basic_ifstream<uint8_t> ifs;
+		ifs.open(path, std::ios_base::binary);
+		uint8_t tgaHeader[18];
+		ifs.read(tgaHeader, 18);
+
+		//イメージIDを飛ばす
+		//読み飛ばすときは ignore（イグノア）メンバ関数を使う
+		ifs.ignore(tgaHeader[0]);
+
+
+		//カラーマップを飛ばす
+		if (tgaHeader[1]) {
+			const int colorMapLenght = tgaHeader[5] + tgaHeader[6] * 0x100;
+			const int colorMapEntrySize = tgaHeader[7];
+			const int colorMapSize = colorMapLenght * colorMapEntrySize / 8;
+			ifs.ignore(colorMapSize);
+		}
+
+		//画像データを読み込む
+		const int width = tgaHeader[12] + tgaHeader[13] * 0x100;
+		const int height = tgaHeader[14] + tgaHeader[15] * 0x100;
+		const int pixcelDepth = tgaHeader[16];
+		const int imageSize = width * height * pixcelDepth / 8;
+		std::vector<uint8_t>buf(imageSize);
+		ifs.read(buf.data(), imageSize);
+
+		// 読み込んだ画像データからテクスチャを作成する
+		return CreateImage2D(width, height, buf.data());
 	}
 
 
