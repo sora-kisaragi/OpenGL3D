@@ -103,21 +103,21 @@ namespace Texture {
 
 		//カラーマップを飛ばす
 		if (tgaHeader[1]) {
-			const int colorMapLenght = tgaHeader[5] + tgaHeader[6] * 0x100;
+			const int colorMapLength = tgaHeader[5] + tgaHeader[6] * 0x100;
 			const int colorMapEntrySize = tgaHeader[7];
-			const int colorMapSize = colorMapLenght * colorMapEntrySize / 8;
+			const int colorMapSize = colorMapLength * colorMapEntrySize / 8;
 			ifs.ignore(colorMapSize);
 		}
 
 		//画像データを読み込む
 		const int width = tgaHeader[12] + tgaHeader[13] * 0x100;
 		const int height = tgaHeader[14] + tgaHeader[15] * 0x100;
-		const int pixcelDepth = tgaHeader[16];
-		const int imageSize = width * height * pixcelDepth / 8;
-		std::vector<uint8_t>buf(imageSize);
+		const int pixelDepth = tgaHeader[16];
+		const int imageSize = width * height * pixelDepth / 8;
+		std::vector<uint8_t> buf(imageSize);
 		ifs.read(buf.data(), imageSize);
 
-		// 読み込んだ画像データからテクスチャを作成する
+		// 読み込んだ画像データからテクスチャを作成する.
 		return CreateImage2D(width, height, buf.data());
 	}
 

@@ -426,26 +426,13 @@ int main()
 	};
 	//テクスチャを作成 それぞれに引数を設定するだけ
 	GLuint texId = Texture::CreateImage2D(imageWidth, imageHeight, imageData);
+	GLuint texHouse = Texture::LoadImage2D("Res/House.tga");
+	
 	//作成に失敗した場合は1を返して終了
 	if (!texId) {
 		return 1;
 	}
 
-	//テクスチャを作成する
-	const int imageWidth2 = 4; //画像の幅
-	const int imageHeight2 = 4; //画像の高さ
-	const uint32_t imageData2[imageWidth2 * imageHeight2] = {
-		W, W, B, W, 
-		W, B, W, W,
-		W, W, B, W,
-		W, B, W, W,
-	};
-	//テクスチャを作成 それぞれに引数を設定するだけ
-	GLuint texId2 = Texture::CreateImage2D(imageWidth2, imageHeight2, imageData2);
-	//作成に失敗した場合は1を返して終了
-	if (!texId2) {
-		return 1;
-	}
 
 
 
@@ -546,15 +533,6 @@ int main()
 		//指定したテクスチャImageユニットをテクスチャ関数の処理対象として設定
 		glActiveTexture(GL_TEXTURE0);
 
-		//指定したテクスチャが選択されたテクスチャイメージユニットに割り当てられる
-		glBindTexture(GL_TEXTURE_2D, texId);
-
-		//指定したテクスチャImageユニットをテクスチャ関数の処理対象として設定
-		glActiveTexture(GL_TEXTURE1);
-
-		//指定したテクスチャが選択されたテクスチャイメージユニットに割り当てられる
-		glBindTexture(GL_TEXTURE_2D, texId2);
-
 		const float treeCount = 10;//木の本数
 		const float radius = 8;		//木を植える円の半径
 
@@ -577,6 +555,10 @@ int main()
 
 		//家を作る
 		{
+
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texHouse);
+
 			//ローカル座標からワールド座標への行列変換
 			const glm::mat4x4 matModel = glm::translate(glm::mat4(1), glm::vec3(0, 0, 0));
 			//3つの行列をかけ合わせて行列を合成
@@ -612,8 +594,6 @@ int main()
 		//割り当てを解除（デフォルトを割り当てる）
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, 0);
 
 
 		//バッファの切替
@@ -621,7 +601,7 @@ int main()
 	}
 
 	//あとから作られたオブジェクトを先に削除
-	glDeleteTextures(1, &texId2);
+	//glDeleteTextures(1, &texHouse);
 	glDeleteTextures(1, &texId);
 	glDeleteProgram(shaderProgram);
 	glDeleteVertexArrays(1, &vao);
