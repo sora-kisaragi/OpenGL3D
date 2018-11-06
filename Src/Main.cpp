@@ -50,24 +50,25 @@ const Vertex vertices[] = {
 	{ { 0.25f, 0.0f, 0.13f},{ 0.5f, 0.3f, 0.2f, 1.0f }, {0.25f,0.0f}},
 
 	//家
-	{ { 2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ -2.0f,-2.0f } },
-	{ { 3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ -2.0f, 0.8f } },
-	{ { 0.0f, 6.0f, 3.0f},{ 0.5f, 0.4f, 0.2f, 1.0f },{ 0.0f, 2.0f } },
-	{ {-3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 2.0f, 0.8f } },
-	{ {-2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 2.0f,-2.0f } },
+
+	{ { 2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 1.000f, 1.00f } },
+	{ { 3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 1.000f, 0.31f } },
+	{ { 0.0f, 6.0f, 3.0f},{ 0.5f, 0.4f, 0.2f, 1.0f },{ 0.875f, 0.00f } },
+	{ {-3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 0.750f, 0.31f } },
+	{ {-2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 0.750f, 1.00f } },
 	
-	{ {-2.8f, 0.0f,-3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ -2.0f,-2.0f } },
-	{ {-3.0f, 4.0f,-3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ -2.0f, 0.8f } },
-	{ { 0.0f, 6.0f,-3.0f},{ 0.5f, 0.4f, 0.2f, 1.0f },{ 0.0f, 2.0f } },
-	{ { 3.0f, 4.0f,-3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 2.0f, 0.8f } },
-	{ { 2.8f, 0.0f,-3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 2.0f,-2.0f } },
+	{ {-2.8f, 0.0f,-3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 0.500f, 1.00f } },
+	{ {-3.0f, 4.0f,-3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 0.500f, 0.31f } },
+	{ { 0.0f, 6.0f,-3.0f},{ 0.5f, 0.4f, 0.2f, 1.0f },{ 0.375f, 0.00f } },
+	{ { 3.0f, 4.0f,-3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 0.250f, 0.31f } },
+	{ { 2.8f, 0.0f,-3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 0.250f, 1.00f } },
 	
-	{ { 3.0f, 4.0f, 3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f },{ -2.0f,-2.0f } },
-	{ { 0.0f, 6.0f, 3.0f},{ 0.3f, 0.2f, 0.2f, 1.0f },{ 0.0f,-2.0f } },
-	{ {-3.0f, 4.0f, 3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f },{ 2.0f,-2.0f } },
-	{ {-3.0f, 4.0f,-3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f },{ 2.0f, 2.0f } },
-	{ { 0.0f, 6.0f,-3.0f},{ 0.3f, 0.2f, 0.2f, 1.0f },{ 0.0f, 2.0f } },
-	{ { 3.0f, 4.0f,-3.0f},{ 0.2f, 0.1f, 0.1f, 1.0f },{ -2.0f, 2.0f } },
+	{ { 2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 0.000f, 1.00f } },
+	{ { 3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 0.000f, 0.31f } },
+	{ { 0.0f, 6.0f, 3.0f},{ 1.0f, 1.0f, 1.0f, 1.0f },{ 0.750f, 0.00f } },
+	{ { 0.0f, 6.0f,-3.0f},{ 1.0f, 1.0f, 1.0f, 1.0f },{ 0.500f, 0.00f } },
+	{ { 0.0f, 6.0f,-3.0f},{ 1.0f, 1.0f, 1.0f, 1.0f },{ 0.250f, 0.00f } },
+	{ { 0.0f, 6.0f, 3.0f},{ 1.0f, 1.0f, 1.0f, 1.0f },{ 0.000f, 0.00f } },
 
 	//岩
 	//底面
@@ -144,10 +145,10 @@ const GLushort indices[] = {
 	//家
 	0, 1, 3, 3, 4, 0, 1, 2, 3,
 	5, 6, 8, 8, 9, 5, 6, 7, 8,
-	9, 8, 1, 1, 0, 9,
+	9, 8, 11, 11, 10, 9,
 	4, 3, 6, 6, 5, 4,
-	15, 14, 11, 11, 10, 15,
-	12, 11, 14, 14, 13, 12,
+	3, 12, 13, 13, 6, 3,
+	8, 14, 15, 15, 11, 8,
 
 
 	//岩	
@@ -410,11 +411,11 @@ int main()
 
 
 	//テクスチャを作成する
-	const int imageWidth = 8; //画像の幅
-	const int imageHeight = 8; //画像の高さ
+	const int tw = 8; //画像の幅
+	const int th = 8; //画像の高さ
 	const uint32_t B = 0xff'00'00'00; //黒
 	const uint32_t W = 0xff'ff'ff'ff; //白
-	const uint32_t imageData[imageWidth * imageHeight] = {
+	const uint32_t imageData[tw * th] = {
 		W, W, B, W, W, W, W, W,
 		W, W, B, W, W, W, W, W,
 		W, W, B, W, W, W, W, W,
@@ -425,7 +426,7 @@ int main()
 		B, B, B, B, B, B, B, B,
 	};
 	//テクスチャを作成 それぞれに引数を設定するだけ
-	GLuint texId = Texture::CreateImage2D(imageWidth, imageHeight, imageData);
+	GLuint texId = Texture::CreateImage2D(tw, th, imageData, GL_RGBA, GL_UNSIGNED_BYTE);
 	GLuint texHouse = Texture::LoadImage2D("Res/House.tga");
 	
 	//作成に失敗した場合は1を返して終了
@@ -453,7 +454,7 @@ int main()
 		glEnable(GL_CULL_FACE);
 
 		//バックバッファを憑拠するときの色　RGBA
-		glClearColor(.01f, 0.3f, 0.5f, 1.0f);
+		glClearColor(0.1f, 0.3f, 0.5f, 1.0f);
 
 		//バックバッファを消去する関数 引数は消去するバッファの種類
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -533,6 +534,9 @@ int main()
 		//指定したテクスチャImageユニットをテクスチャ関数の処理対象として設定
 		glActiveTexture(GL_TEXTURE0);
 
+		//指定したテクスチャが選択されたテクスチャイメージユニットに割り当てられる
+		glBindTexture(GL_TEXTURE_2D, texId);
+
 		const float treeCount = 10;//木の本数
 		const float radius = 8;		//木を植える円の半径
 
@@ -554,8 +558,8 @@ int main()
 		}
 
 		//家を作る
-		{
 
+		{
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texHouse);
 
@@ -601,7 +605,7 @@ int main()
 	}
 
 	//あとから作られたオブジェクトを先に削除
-	//glDeleteTextures(1, &texHouse);
+	glDeleteTextures(1, &texHouse);
 	glDeleteTextures(1, &texId);
 	glDeleteProgram(shaderProgram);
 	glDeleteVertexArrays(1, &vao);

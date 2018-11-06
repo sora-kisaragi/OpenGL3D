@@ -17,11 +17,13 @@ namespace Texture {
 	* @param width   テクスチャの幅(ピクセル数).
 	* @param height  テクスチャの高さ(ピクセル数).
 	* @param data    テクスチャデータへのポインタ.
+	* @param format  転送元画像のデータ形式.
+	* @param type    転送元画像のデータ格納形式.
 	*
 	* @retval 0以外  作成したテクスチャ・オブジェクトのID.
 	* @retval 0      テクスチャの作成に失敗.
 	*/
-	GLuint CreateImage2D(GLsizei width, GLsizei height, const GLvoid* data)
+	GLuint CreateImage2D(GLsizei width, GLsizei height, const GLvoid* data, GLenum format, GLenum type)
 	{
 		GLuint id;
 		
@@ -36,6 +38,9 @@ namespace Texture {
 		//割り当てるオブジェクトのID 0の場合実質割当解除
 		glBindTexture(GL_TEXTURE_2D, id);
 
+		//GPUメモリに画像データを転送	GL_UNPACK_ALIGNMENTを指定するとGPUメモリへデータを転送するときのアライメントを指定できる
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
 		//GPUへテクスチャのパラメータと画像データを転送
 		/**
 		*	GLuint CreateImage2D(GLsizei width, GLsizei height, const GLvoid* date);
@@ -49,7 +54,14 @@ namespace Texture {
 		*	type	転送元夫のがぞ図がどのように色を格納しているかを指定する
 		*	data	転送元データへのポインタ nullptrで後から書き込んで使用する場合に使える（何が書かれているかわからない状態）
 		*/
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, format, type, data);
+
+
+
+		//初期値に戻す（初期値は４）
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+
+
 
 		//テクスチャ作成の成功失敗を取得
 		const GLenum result = glGetError();
@@ -66,11 +78,20 @@ namespace Texture {
 			return 0;
 
 		}
+
+		//テクスチャのパラメータを設定する
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		// 1要素の画像データの場合、(R,R,R,1)として読み取られるように設定する.
+			if (format == GL_RED) {
+			const GLint swizzle[] = { GL_RED, GL_RED, GL_RED, GL_ONE };
+			glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzle);
+
+		}
 
 
 
@@ -109,6 +130,7 @@ namespace Texture {
 			ifs.ignore(colorMapSize);
 		}
 
+
 		//画像データを読み込む
 		const int width = tgaHeader[12] + tgaHeader[13] * 0x100;
 		const int height = tgaHeader[14] + tgaHeader[15] * 0x100;
@@ -117,9 +139,41 @@ namespace Texture {
 		std::vector<uint8_t> buf(imageSize);
 		ifs.read(buf.data(), imageSize);
 
+		//画像データが「上から舌」で格納されている場合、上下を入れ替える
+		if(tgaHeader[17] & 0x20) {
+			const int lineSize = width * pixelDepth / 8;
+			std::vector<uint8_t>tmp(imageSize);
+			std::vector<uint8_t>::iterator source = buf.begin();
+			std::vector<uint8_t>::iterator destination = tmp.end();
+			for (int i = 0; i < height; i++) {
+				destination -= lineSize;
+				std::copy(source, source + lineSize, destination);
+				source += lineSize;
+			}
+		
+			buf.swap(tmp);
+		}
+
+
 		// 読み込んだ画像データからテクスチャを作成する.
-		return CreateImage2D(width, height, buf.data());
+		GLenum type = GL_UNSIGNED_BYTE;
+		GLenum format = GL_BGRA;
+		if (tgaHeader[2] == 3) {
+			format = GL_RED;			
+		}
+
+		if (tgaHeader[16] == 24) {
+			format = GL_BGR;
+		}
+		else if (tgaHeader[16] == 16){
+			type = GL_UNSIGNED_SHORT_1_5_5_5_REV;
+			
+		}
+
+		return CreateImage2D(width, height, buf.data(), format, type);
+
 	}
+
 
 
 
