@@ -33,6 +33,7 @@ struct Vertex
 	Vector3 position;///< 座標
 	Color color;///< 色
 	Vector2 texCoord;///< テクスチャ座標　Texture Coordinatesの略
+	Vector3 normal;///< 法線
 };
 
 
@@ -40,17 +41,16 @@ struct Vertex
 /// 頂点データ
 const Vertex vertices[] = {
 	//木
-	{ { 0.00f, 5.0f, 0.00f},{ 0.5f, 0.8f, 0.3f, 1.0f }, {0.0f,0.4f}},
-	{ { 0.00f, 1.5f,-1.10f},{ 0.1f, 0.3f, 0.0f, 1.0f }, {0.0f,1.0f}},
-	{ {-0.75f, 1.5f, 0.40f},{ 0.1f, 0.3f, 0.0f, 1.0f }, {-0.5f,0.0f}},
-	{ { 0.75f, 1.5f, 0.40f},{ 0.1f, 0.3f, 0.0f, 1.0f }, {0.0f,0.0f}},
-	{ { 0.00f, 4.0f, 0.00f},{ 0.2f, 0.1f, 0.0f, 1.0f }, {0.5f,0.1f}},
-	{ { 0.00f, 0.0f,-0.37f},{ 0.5f, 0.3f, 0.2f, 1.0f }, {-0.5f,0.1f}},
-	{ {-0.25f, 0.0f, 0.13f},{ 0.5f, 0.3f, 0.2f, 1.0f }, {-0.25f,0.0f}},
-	{ { 0.25f, 0.0f, 0.13f},{ 0.5f, 0.3f, 0.2f, 1.0f }, {0.25f,0.0f}},
+	{ { 0.00f, 5.0f, 0.00f},{ 0.5f, 0.8f, 0.3f, 1.0f },{ 0.0f, 1.0f },{ 0.00f, 1.00f, 0.00f } },
+	{ { 0.00f, 1.5f,-1.10f},{ 0.1f, 0.3f, 0.0f, 1.0f },{ 0.0f, 0.0f },{ 0.00f,-0.49f,-0.87f } },
+	{ {-0.75f, 1.5f, 0.40f},{ 0.1f, 0.3f, 0.0f, 1.0f },{ 0.0f, 0.0f },{-0.76f,-0.49f, 0.43f } },
+	{ { 0.75f, 1.5f, 0.40f},{ 0.1f, 0.3f, 0.0f, 1.0f },{ 0.5f, 0.0f },{ 0.76f,-0.49f, 0.43f } },
+	{ { 0.00f, 4.0f, 0.00f},{ 0.2f, 0.1f, 0.0f, 1.0f },{ 1.0f, 1.0f },{ 0.00f, 1.00f, 0.00f } },
+	{ { 0.00f, 0.0f,-0.37f},{ 0.5f, 0.3f, 0.2f, 1.0f },{ 0.0f, 0.0f },{ 0.00f,-0.49f,-0.87f } },
+	{ {-0.25f, 0.0f, 0.13f},{ 0.5f, 0.3f, 0.2f, 1.0f },{ 0.5f, 0.0f },{-0.76f,-0.49f, 0.43f } },
+	{ { 0.25f, 0.0f, 0.13f},{ 0.5f, 0.3f, 0.2f, 1.0f },{ 1.0f, 0.0f },{ 0.76f,-0.49f, 0.43f } },
 
 	//家
-
 	{ { 2.8f, 0.0f, 3.0f},{ 0.4f, 0.3f, 0.2f, 1.0f },{ 1.000f, 1.00f } },
 	{ { 3.0f, 4.0f, 3.0f},{ 0.6f, 0.5f, 0.3f, 1.0f },{ 1.000f, 0.31f } },
 	{ { 0.0f, 6.0f, 3.0f},{ 0.5f, 0.4f, 0.2f, 1.0f },{ 0.875f, 0.00f } },
@@ -70,6 +70,22 @@ const Vertex vertices[] = {
 	{ { 0.0f, 6.0f,-3.0f},{ 1.0f, 1.0f, 1.0f, 1.0f },{ 0.250f, 0.00f } },
 	{ { 0.0f, 6.0f, 3.0f},{ 1.0f, 1.0f, 1.0f, 1.0f },{ 0.000f, 0.00f } },
 
+
+
+	//地面
+	{ { -10.0f, 0.0f, -10.0f },{ 0.5f, 0.8f, 0.3f, 1.0f },{ 0.0f, 1.0f },{ 0.0f, 1.0f, 0.0f } },
+	
+	{ { -10.0f, 0.0f, 10.0f },{ 0.5f, 0.8f, 0.3f, 1.0f },{ 0.0f, 1.0f },{ 0.0f, 1.0f, 0.0f } },
+	
+	{ { 10.0f, 0.0f, 10.0f },{ 0.5f, 0.8f, 0.3f, 1.0f },{ 0.0f, 1.0f },	{ 0.0f, 1.0f, 0.0f } },
+
+	{ { 10.0f, 0.0f, 10.0f },{ 0.5f, 0.8f, 0.3f, 1.0f },{ 0.0f, 1.0f },	{ 0.0f, 1.0f, 0.0f } },
+	
+	{ { 10.0f, 0.0f, -10.0f },{ 0.5f, 0.8f, 0.3f, 1.0f },{ 0.0f, 1.0f },{ 0.0f, 1.0f, 0.0f } },
+
+	{ { 10.0f, 0.0f, -10.0f },{ 0.5f, 0.8f, 0.3f, 1.0f },{ 0.0f, 1.0f },{ 0.0f, 1.0f, 0.0f } },
+	
+	
 	//岩
 	//底面
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
@@ -78,6 +94,7 @@ const Vertex vertices[] = {
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
+	
 	//側面(前)
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
@@ -85,6 +102,7 @@ const Vertex vertices[] = {
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
+	
 	//側面(右)
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
@@ -92,6 +110,7 @@ const Vertex vertices[] = {
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
+	
 	//側面(左)
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
@@ -99,6 +118,7 @@ const Vertex vertices[] = {
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
+	
 	//側面(後)
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
@@ -106,6 +126,7 @@ const Vertex vertices[] = {
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
+	
 	//上面
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
@@ -113,7 +134,6 @@ const Vertex vertices[] = {
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
 	{ { 5.0f,0.0f,0.0f },{ 1.0f,1.0f,1.0f,1.0f } },
-
 
 	//四角形
 	{ { -0.5f, -0.3f, 0.5f },{ 0.0f, 1.0f, 0.0f, 1.0f } },
@@ -127,8 +147,6 @@ const Vertex vertices[] = {
 	{ { 0.5f, -0.5f, 0.1f},{ 1.0f, 0.0f, 0.0f, 1.0f } },
 	{ { 0.5f,  0.3f, 0.1f},{ 1.0f, 1.0f, 0.0f, 1.0f } },
 	{ {-0.3f,  0.3f, 0.1f},{ 1.0f, 0.0f, 0.0f, 1.0f } },
-
-
 
 
 	{ { -0.5f, -0.43f, 0.5f },{ 0.0f, 0.0f, 1.0f, 1.0f } },
@@ -150,13 +168,14 @@ const GLushort indices[] = {
 	3, 12, 13, 13, 6, 3,
 	8, 14, 15, 15, 11, 8,
 
+	//地面
+	16,17,18,18,19,16,
 
-	//岩	
-
-
-
+	//岩
 	0,1,2,2,3,0,
 	4,5,6,7,8,9,
+
+
 };
 
 /*
@@ -170,43 +189,15 @@ struct Mesh
 	GLint baseVertex;		///< インデックス0番とみなされる頂点配列内の位置
 };
 
+
 /*
 *描画データリスト
 */
 const Mesh meshList[] = {
 	{GL_TRIANGLES, 21,(const GLvoid*)0,0 }, //木
-	{GL_TRIANGLES,42,(const GLvoid*)(21 * sizeof(GLshort)),8},//家
+	{GL_TRIANGLES, 42,(const GLvoid*)(21 * sizeof(GLshort)),8},//家
+	{GL_TRIANGLES, 6,(const GLvoid*)(63 * sizeof(GLshort)),16}//地面
 };
-
-
-
-/// 頂点シェーダー.
-static const char* vsCode =
-"#version 410 \n"
-"layout(location=0) in vec3 vPosition; \n"
-"layout(location=1) in vec4 vColor; \n"
-"layout(location=2) in vec2 vTexCoord; \n"
-"layout(location=0) out vec4 outColor;"
-"layout(location=1) out vec2 outTexCoord; \n"
-"uniform mat4x4 matMVP; \n"
-"void main() { \n"
-"  outColor = vColor; \n"
-"  outTexCoord = vTexCoord; \n"
-"  gl_Position = matMVP * vec4(vPosition, 1.0); \n"
-"}";
-
-
-
-/// フラグメントシェーダー.
-static const char* fsCode =
-"#version 410 \n"
-"layout(location=0) in vec4 inColor; \n"
-"layout(location=1) in vec2 inTexCoord; \n"
-"uniform sampler2D texColor; \n"
-"out vec4 fragColor; \n"
-"void main() { \n"
-"  fragColor = inColor * texture(texColor, inTexCoord); \n"
-"}";
 
 
 
@@ -346,6 +337,12 @@ GLuint CreateVAO(GLuint vbo, GLuint ibo)
 	glVertexAttribPointer(2, sizeof(Vertex::texCoord) / sizeof(float),
 		GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)(offsetof(Vertex, texCoord)));
 
+	//指定したバインディングポイントを有効にする
+	glEnableVertexAttribArray(3);
+
+	//頂点アトリビュートをバインディングポインタへ割り当てる
+	glVertexAttribPointer(3, sizeof(Vertex::normal) / sizeof(float),
+		GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)(offsetof(Vertex, normal)));
 
 
 	//0で割り当てを解除
@@ -384,10 +381,11 @@ int main()
 	const GLuint vbo = CreateVBO(sizeof(vertices), vertices);
 	const GLuint ibo = CreateIBO(sizeof(indices), indices);
 	const GLuint vao = CreateVAO(vbo, ibo);
-	const GLuint shaderProgram = Shader::Build(vsCode, fsCode);
+	const GLuint shaderProgram = Shader::BuildFromFile("Res/Simple.vert", "Res/Simple.frag");
+	const GLuint progLighting = Shader::BuildFromFile("Res/VertexLighting.vert", "Res/Simple.frag");
 
 	//失敗したら1を返してプログラムを終了
-	if (!vbo || !ibo || !vao || !shaderProgram) {
+	if (!vbo || !ibo || !vao || !shaderProgram || !progLighting) {
 		return 1;
 	}
 
@@ -400,6 +398,38 @@ int main()
 		//1を返す
 		return 1;
 	}
+
+	//実装した関数を呼び出し、作成したオブジェクトに変数を格納
+	const GLint locMatMVP = glGetUniformLocation(progLighting, "matMVP");
+	
+	const GLint locAmbLightCol =
+		glGetUniformLocation(progLighting, "ambientLight.color");
+
+
+	const GLint locDirLightDir =
+		glGetUniformLocation(progLighting, "directionalLight.direction");
+	
+	const GLint locDirLightCol =
+		glGetUniformLocation(progLighting, "directionalLight.color");
+	
+	if (locDirLightDir < 0 || locDirLightCol < 0 || locAmbLightCol < 0) {
+		std::cerr << "ERROR: uniform変数の位置を取得できません.\n";
+		return 1;
+	}
+
+
+	{
+		glUseProgram(progLighting);
+		const GLint locTexCol = glGetUniformLocation(progLighting, "texColor");
+		if (locTexCol >= 0) {
+			glUniform1i(locTexCol, 0);
+			
+		}
+	}
+
+
+
+
 
 	glUseProgram(shaderProgram);
 	const GLint texColorLoc = glGetUniformLocation(shaderProgram, "texColor");
@@ -434,10 +464,16 @@ int main()
 		return 1;
 	}
 
+	//ライトの設定
+	
+	//環境光の色
+	const glm::vec3 ambLightCol = glm::vec3(0.05f, 0.1f, 0.1f);
 
+	//指向性ライトの方向
+	const glm::vec3 dirLightDir = glm::normalize(glm::vec3(1, -1, -1));
 
-
-
+	//指向性ライトの色
+	const glm::vec3 dirLightCol = glm::vec3(1.0f, 1.0f, 1.0f);
 
 
 
@@ -476,8 +512,7 @@ int main()
 		
 
 		//描画に使用するプログラムを設定
-		glUseProgram(shaderProgram);
-
+		glUseProgram(progLighting);
 
 		//座標変換行列を作成してシェーダーに転送する
 		//glm::perspective
@@ -492,6 +527,12 @@ int main()
 		//視点座標 注視点座標 視点の上方向のベクトル
 		const glm::mat4x4 matView =
 			glm::lookAt(viewPos, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+
+
+		//ライトをGPUメモリに転送する
+		glUniform3fv(locAmbLightCol, 1, &ambLightCol.x);
+		glUniform3fv(locDirLightDir, 1, &dirLightDir.x);
+		glUniform3fv(locDirLightCol, 1, &dirLightCol.x);
 
 
 
@@ -542,23 +583,56 @@ int main()
 
 		//木の本数分作る
 		for (float i = 0; i < treeCount; ++i) {
+
+			const float theta = 3.14f * 2 / treeCount * i;
+
 			//x座標
-			const float x = std::cos(3.14f * 2 / treeCount * i) * radius;
+			const float x = std::cos(theta) * radius;
 			//y座標
-			const float z = std::sin(3.14f * 2 / treeCount * i) * radius;
+			const float z = std::sin(theta) * radius;
 			//ローカル座標からワールド座標への行列変換
-			const glm::mat4x4 matModel = glm::translate(glm::mat4(1), glm::vec3(x, 0, z));
+			const glm::mat4x4 matModelT = glm::translate(glm::mat4(1), glm::vec3(x, 0, z));
+			
+			const glm::mat4x4 matModelR = glm::rotate(glm::mat4(1), theta * 5, glm::vec3(0, 1, 0));
+			
 			//3つの行列をかけ合わせて行列を合成
-			const glm::mat4x4 matMVP = matProj * matView * matModel;
+			const glm::mat4x4 matMVP = matProj * matView * matModelT * matModelR;
+
 			//シェーダーに変換行列を転送
-			glUniformMatrix4fv(matMVPLoc, 1, GL_FALSE, &matMVP[0][0]);
+			glUniformMatrix4fv(locMatMVP, 1, GL_FALSE, &matMVP[0][0]);
+		
+			//指向性ライトの向きをモデル座標系に変換してGPUメモリに転送する
+			const glm::vec3 dirLightDirOnModel =
+				glm::inverse(glm::mat3(matModelR)) * dirLightDir;
+			glUniform3fv(locDirLightDir, 1, &dirLightDirOnModel.x);
+			
 			//インデックスの0番とみなす頂点データの位置を設定
 			glDrawElementsBaseVertex(meshList[0].mode, meshList[0].count,
 				GL_UNSIGNED_SHORT, meshList[0].indices, meshList[0].baseVertex);
 		}
 
-		//家を作る
+		//地面を作る
+		{
+			//ローカル座標からワールド座標への行列変換
+			const glm::mat4x4 matModel = glm::translate(glm::mat4(1), glm::vec3(0, 0, 0));
+			//3つの行列をかけ合わせて行列を合成
+			const glm::mat4x4 matMVP = matProj * matView * matModel;
+			//シェーダーに変換行列を転送
+			glUniformMatrix4fv(matMVPLoc, 1, GL_FALSE, &matMVP[0][0]);
+		
+			
+			
+			
+			//インデックスの0番とみなす頂点データの位置を設定
+			glDrawElementsBaseVertex(meshList[2].mode, meshList[2].count,
+				GL_UNSIGNED_SHORT, meshList[2].indices, meshList[2].baseVertex);
+		}
 
+
+		//描画に使用するプログラムを設定
+		glUseProgram(shaderProgram);
+
+		//家を作る
 		{
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texHouse);
@@ -607,6 +681,7 @@ int main()
 	//あとから作られたオブジェクトを先に削除
 	glDeleteTextures(1, &texHouse);
 	glDeleteTextures(1, &texId);
+	glDeleteProgram(progLighting);
 	glDeleteProgram(shaderProgram);
 	glDeleteVertexArrays(1, &vao);
 
