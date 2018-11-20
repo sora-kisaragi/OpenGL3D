@@ -20,13 +20,13 @@ namespace GLFWEW {
 		bool ShouldClose() const;
 		void SwapBuffers() const;
 
-		void InitTimer();
-		void UpdateTimer();
-		double DeltaTime() const;
+        void InitTimer();
+        void UpdateTimer();
+        double DeltaTime() const;
 
-		bool IsKeyPressed(int key) const;
-		glm::vec2 GetMousePosition() const;
-		int GetMouseButton(int button) const;
+        bool IsKeyPressed(int key) const;
+        glm::vec2 GetMousePosition() const;
+        int GetMouseButton(int button) const;
 
 	private:
 		Window();
@@ -37,8 +37,8 @@ namespace GLFWEW {
 		bool isGLFWInitialized = false;
 		bool isInitialized = false;
 		GLFWwindow* window = nullptr;
-		double previousTime = 0;
-		double deltaTime = 0;
+        double previousTime = 0;
+        double deltaTime = 0;
 	};
 
 } // namespace GLFWEW
