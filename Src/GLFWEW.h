@@ -5,7 +5,7 @@
 #define GLFWEW_H_INCLUDED
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
+#include <glm/vec2.hpp>
 
 namespace GLFWEW {
 
@@ -15,33 +15,32 @@ namespace GLFWEW {
 	class Window
 	{
 	public:
-
-		//Windowのシングルトン
 		static Window& Instance();
-
-		bool Init(int x, int h, const char* title);
-		
+		bool Init(int w, int h, const char* title);
 		bool ShouldClose() const;
-		
 		void SwapBuffers() const;
 
+		void InitTimer();
+		void UpdateTimer();
+		double DeltaTime() const;
+
+		bool IsKeyPressed(int key) const;
+		glm::vec2 GetMousePosition() const;
+		int GetMouseButton(int button) const;
+
 	private:
-		//デフォルトコンストラクタ と デストラクタ
 		Window();
 		~Window();
-		
-		//コピーコンストラクタとコピー代入演算子を削除指定
-		//コピーを禁止
 		Window(const Window&) = delete;
 		Window& operator=(const Window&) = delete;
-
 
 		bool isGLFWInitialized = false;
 		bool isInitialized = false;
 		GLFWwindow* window = nullptr;
-
+		double previousTime = 0;
+		double deltaTime = 0;
 	};
 
-} //namespace GLFWEW
+} // namespace GLFWEW
 
 #endif // GLFWEW_H_INCLUDED

@@ -1,6 +1,3 @@
-/**
-* @file simple.vert
-*/
 #version 410
 
 layout(location=0) in vec3 vPosition;
@@ -12,13 +9,8 @@ layout(location=1) out vec2 outTexCoord;
 
 uniform mat4x4 matMVP;
 
-
-/**
-* 頂点シェーダー
-*/
 void main() {
   outColor = vColor;
   outTexCoord = vTexCoord;
-  gl_Position = matMVP * vec4(vPosition, 1.0); 
-} ;
-
+  gl_Position = matMVP * vec4(vPosition, 1.0);
+}

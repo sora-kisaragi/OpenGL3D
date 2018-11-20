@@ -27,6 +27,9 @@
     <ClCompile Include="Src\Texture.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Src\MeshList.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -37,6 +40,12 @@
       <Filter>リソース ファイル</Filter>
     </None>
     <None Include="Res\VertexLighting.vert">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Res\FragmentLighting.frag">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Res\FragmentLighting.vert">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
@@ -51,6 +60,15 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Src\Texture.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\GamePad.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\MeshList.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Geometry.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
