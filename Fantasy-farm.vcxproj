@@ -153,6 +153,8 @@
     <None Include="Res\FragmentLighting.vert" />
     <None Include="Res\Simple.frag" />
     <None Include="Res\Simple.vert" />
+    <None Include="Res\smaug.fbx" />
+    <None Include="Res\Toroid.fbx" />
     <None Include="Res\VertexLighting.vert" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\House.tga" />
+    <Image Include="Res\Rock.tga" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

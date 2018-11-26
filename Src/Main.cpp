@@ -9,31 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
-/// 頂点シェーダ.
-static const char* vsCode =
-"#version 410 \n"
-"layout(location=0) in vec3 vPosition; \n"
-"layout(location=1) in vec4 vColor; \n"
-"layout(location=2) in vec2 vTexCoord; \n"
-"layout(location=0) out vec4 outColor; \n"
-"layout(location=1) out vec2 outTexCoord; \n"
-"uniform mat4x4 matMVP; \n"
-"void main() { \n"
-"  outColor = vColor; \n"
-"  outTexCoord = vTexCoord; \n"
-"  gl_Position = matMVP * vec4(vPosition, 1.0); \n"
-"} \n";
 
-/// フラグメントシェーダ.
-static const char* fsCode =
-"#version 410 \n"
-"layout(location=0) in vec4 inColor; \n"
-"layout(location=1) in vec2 inTexCoord; \n"
-"out vec4 fragColor; \n"
-"uniform sampler2D texColor; \n"
-"void main() { \n"
-"  fragColor = inColor * texture(texColor, inTexCoord); \n"
-"} \n";
 
 /// エントリーポイント.
 int main()

@@ -48,6 +48,12 @@
     <None Include="Res\FragmentLighting.vert">
       <Filter>リソース ファイル</Filter>
     </None>
+    <None Include="Res\Toroid.fbx">
+      <Filter>リソース ファイル</Filter>
+    </None>
+    <None Include="Res\smaug.fbx">
+      <Filter>リソース ファイル</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\GameData.h">
@@ -74,6 +80,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\House.tga">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Res\Rock.tga">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>
